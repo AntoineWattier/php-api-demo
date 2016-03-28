@@ -29,7 +29,7 @@ $factory->define(App\Image::class, function ($faker) {
     $destinationPath = 'public/images/'.$filename.'/original';
 
     File::makeDirectory($destinationPath, 0755, true);
-    File::put($destinationPath.'/'.$originalFilename, file_get_contents($faker->imageUrl($width = 640, $height = 480)));
+    File::put($destinationPath.'/'.$originalFilename, file_get_contents('http://placekitten.com/480/500'));
 
     return [
         'title' => $faker->catchPhrase,
