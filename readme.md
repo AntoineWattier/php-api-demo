@@ -14,11 +14,19 @@ Run `composer`
 
 ## Testing
 
-- Set your test database in `phpunit.xml`
-    `<env name="DB_DATABASE" value="phpapidemo_test"/>`
+- Set your test database in `phpunit.xml`  
+```xml
+ <env name="DB_DATABASE" value="phpapidemo_test"/>
+```
 
 - Run `phpunit`
 
+## TODO
+
+- Fix Image creation test
+- Retrieve more image metadata
+- Better tests on error response messages
+ 
 ## License
 
 PHP API Demo is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
