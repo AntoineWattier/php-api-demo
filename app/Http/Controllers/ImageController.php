@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use DB;
 use Cache;
 use Fractal;
 use Log;
@@ -14,9 +15,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Pagination;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use League\Fractal\Resource\Collection;
 
 class ImageController extends ApiController
 {
+    const IMAGES_PER_PAGE = 5;
+
     protected $createValidationRules = [
         'asset'         => 'required|image',
     ];
@@ -45,12 +51,15 @@ class ImageController extends ApiController
      */
     public function index(){
         // Retrieve all images
-        $images = $this->image->get();
+        $paginator = Image::paginate(self::IMAGES_PER_PAGE);
+        $images = $paginator->getCollection();
 
         $data = Fractal::collection($images)
                             ->includeUser()
+                            ->paginateWith(new IlluminatePaginatorAdapter($paginator))
                             ->transformWith(new ImageTransformer)
-                            ->toArray();
+                            ->toArray()
+        ;
 
         return $this->respond($data);
     }
